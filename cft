@@ -1,0 +1,34 @@
+Resources:
+  MyCodePipeline:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      RoleArn: <IAM role ARN>
+      Stages:
+        - Name: Source
+          Actions:
+            - Name: SourceAction
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Version: 1
+                Provider: GitHub
+              Configuration:
+                Owner: <GitHub repository owner>
+                Repo: <GitHub repository name>
+                Branch: <GitHub branch>
+                OAuthToken: <GitHub OAuth token>
+              OutputArtifacts:
+                - Name: SourceOutput
+        - Name: Deploy
+          Actions:
+            - Name: S3DeployAction
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Version: 1
+                Provider: S3
+              Configuration:
+                BucketName: <S3 bucket name>
+                Extract: true
+              InputArtifacts:
+                - Name: SourceOutput
