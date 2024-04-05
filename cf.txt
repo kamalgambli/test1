@@ -1,0 +1,139 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'CI/CD Pipeline using AWS CodePipeline'
+
+Parameters:
+  GitHubRepoUrl:
+    Type: String
+    Description: 'URL of the GitHub repository'
+  GitHubBranch:
+    Type: String
+    Default: 'main'
+    Description: 'Branch of the GitHub repository'
+  EnvironmentVariables:
+    Type: String
+    Description: 'Additional environment variables for the build stage'
+
+Resources:
+  MyPipeline:
+    Type: 'AWS::CodePipeline::Pipeline'
+    Properties:
+      Name: 'MyPipeline'
+      RoleArn: !GetAtt PipelineRole.Arn
+      Stages:
+        - Name: 'Source'
+          Actions:
+            - Name: 'SourceAction'
+              ActionTypeId:
+                Category: 'Source'
+                Owner: 'ThirdParty'
+                Version: '1'
+                Provider: 'GitHub'
+              Configuration:
+                Owner: !Select [0, !Split ['/', !Ref GitHubRepoUrl]]
+                Repo: !Select [1, !Split ['/', !Ref GitHubRepoUrl]]
+                Branch: !Ref GitHubBranch
+                OAuthToken: !Ref GitHubToken
+              OutputArtifacts:
+                - Name: 'SourceOutput'
+        - Name: 'Build'
+          Actions:
+            - Name: 'BuildAction'
+              ActionTypeId:
+                Category: 'Build'
+                Owner: 'AWS'
+                Version: '1'
+                Provider: 'CodeBuild'
+              Configuration:
+                ProjectName: !Ref CodeBuildProject
+              InputArtifacts:
+                - Name: 'SourceOutput'
+              OutputArtifacts:
+                - Name: 'BuildOutput'
+              EnvironmentVariables:
+                - Name: 'ADDITIONAL_ENV_VARIABLE'
+                  Value: !Ref EnvironmentVariables
+        - Name: 'Deploy'
+          Actions:
+            - Name: 'DeployAction'
+              ActionTypeId:
+                Category: 'Deploy'
+                Owner: 'AWS'
+                Version: '1'
+                Provider: 'S3'
+              Configuration:
+                BucketName: !Ref DeployBucket
+                Extract: 'true'
+                ObjectKey: 'index.html'
+              InputArtifacts:
+                - Name: 'BuildOutput'
+      ArtifactStore:
+        Type: 'S3'
+        Location: !Ref ArtifactBucket
+
+  PipelineRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: 'Allow'
+            Principal:
+              Service: 'codepipeline.amazonaws.com'
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: 'PipelinePolicy'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: 'Allow'
+                Action:
+                  - 's3:GetObject'
+                  - 's3:GetObjectVersion'
+                  - 's3:GetBucketVersioning'
+                  - 's3:PutObject'
+                Resource:
+                  - !Sub 'arn:aws:s3:::${ArtifactBucket}/*'
+
+  CodeBuildProject:
+    Type: 'AWS::CodeBuild::Project'
+    Properties:
+      Name: 'MyCodeBuildProject'
+      ServiceRole: !GetAtt CodeBuildRole.Arn
+      Source:
+        Type: 'CODEPIPELINE'
+        BuildSpec: |
+          version: 0.2
+          phases:
+            install:
+              runtime-versions:
+                python: 3.8
+            build:
+              commands:
+                - echo 'Building...'
+            post_build:
+              commands:
+                - echo 'Build complete.'
+      Artifacts:
+        Type: 'CODEPIPELINE'
+
+  CodeBuildRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: 'Allow'
+            Principal:
+              Service: 'codebuild.amazonaws.com'
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: 'CodeBuildPolicy'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: 'Allow'
+                Action:
+                  - 'logs:CreateLogGroup'
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                Resource: '*'
