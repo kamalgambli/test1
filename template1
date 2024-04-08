@@ -1,0 +1,152 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'CI/CD Pipeline using AWS CodePipeline'
+
+Parameters:
+  GitHubRepoUrl:
+    Type: String
+    Description: 'URL of the GitHub repository'
+    Default: 'https://github.com/ripl-org/ar-ui-frontend'
+  GitHubBranch:
+    Type: String
+    Default: 'dev'
+    Description: 'Branch of the GitHub repository'
+
+Resources:
+  ArtifactBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: dev-ar-ui-artifact-bucket-cf
+      AccessControl: Private
+
+  DeployBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: dev-ar-ui-deploy-bucket-cf
+      AccessControl: Private
+
+  MyPipeline:
+    Type: 'AWS::CodePipeline::Pipeline'
+    Properties:
+      Name: 'MyPipeline'
+      RoleArn: !GetAtt PipelineRole.Arn
+      Stages:
+        - Name: 'Source'
+          Actions:
+            - Name: 'SourceAction'
+              ActionTypeId:
+                Category: 'Source'
+                Owner: 'ThirdParty'
+                Version: '1'
+                Provider: 'GitHub'
+              Configuration:
+                Owner: !Select [0, !Split ['/', !Ref GitHubRepoUrl]]
+                Repo: !Select [1, !Split ['/', !Ref GitHubRepoUrl]]
+                Branch: !Ref GitHubBranch
+              OutputArtifacts:
+                - Name: 'SourceOutput'
+
+        - Name: 'Build'
+          Actions:
+            - Name: 'SourceOutput'
+              ActionTypeId:
+                Category: 'Build'
+                Owner: 'AWS'
+                Version: '1'
+                Provider: 'CodeBuild'
+              Configuration:
+                ProjectName: !Ref CodeBuildProject
+              InputArtifacts:
+                - Name: 'SourceOutput'
+              OutputArtifacts:
+                - Name: 'BuildOutput'
+
+        - Name: 'Deploy'
+          Actions:
+            - Name: 'DeployAction'
+              ActionTypeId:
+                Category: 'Deploy'
+                Owner: 'AWS'
+                Version: '1'
+                Provider: 'S3'
+              Configuration:
+                BucketName: !Ref DeployBucket
+                Extract: 'true'
+                ObjectKey: 'dev'
+              InputArtifacts:
+                - Name: 'BuildOutput'
+
+      ArtifactStore:
+        Type: 'S3'
+        Location: !Ref ArtifactBucket
+
+  PipelineRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: 'Allow'
+            Principal:
+              Service: 'codepipeline.amazonaws.com'
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: 'PipelinePolicy'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: 'Allow'
+                Action:
+                  - 's3:GetObject'
+                  - 's3:GetObjectVersion'
+                  - 's3:GetBucketVersioning'
+                  - 's3:PutObject'
+                Resource:
+                  - !Sub 'arn:aws:s3:::${ArtifactBucket}/*'
+
+  CodeBuildProject:
+    Type: 'AWS::CodeBuild::Project'
+    Properties:
+      Name: 'MyCodeBuildProject'
+      ServiceRole: !GetAtt CodeBuildRole.Arn
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/standard:4.0
+      Source:
+        Type: 'CODEPIPELINE'
+        BuildSpec: |
+          version: 0.2
+          phases:
+            install:
+              runtime-versions:
+                react: 18.2
+            build:
+              commands:
+                - echo 'Building...'
+            post_build:
+              commands:
+                - echo 'Build complete.'
+      Artifacts:
+        Type: 'CODEPIPELINE'
+
+  CodeBuildRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: 'Allow'
+            Principal:
+              Service: 'codebuild.amazonaws.com'
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: 'CodeBuildPolicy'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: 'Allow'
+                Action:
+                  - 'logs:CreateLogGroup'
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                Resource: '*'
