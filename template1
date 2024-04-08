@@ -10,6 +10,9 @@ Parameters:
     Type: String
     Default: 'dev'
     Description: 'Branch of the GitHub repository'
+  # EnvironmentVariables:
+  #   Type: String
+  #   Description: 'Additional environment variables for the build stage'
 
 Resources:
   ArtifactBucket:
@@ -17,13 +20,11 @@ Resources:
     Properties:
       BucketName: dev-ar-ui-artifact-bucket-cf
       AccessControl: Private
-
   DeployBucket:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: dev-ar-ui-deploy-bucket-cf
       AccessControl: Private
-
   MyPipeline:
     Type: 'AWS::CodePipeline::Pipeline'
     Properties:
@@ -36,18 +37,18 @@ Resources:
               ActionTypeId:
                 Category: 'Source'
                 Owner: 'ThirdParty'
-                Version: '1'
+                Version: '2'
                 Provider: 'GitHub'
               Configuration:
                 Owner: !Select [0, !Split ['/', !Ref GitHubRepoUrl]]
                 Repo: !Select [1, !Split ['/', !Ref GitHubRepoUrl]]
                 Branch: !Ref GitHubBranch
+                # OAuthToken: !Ref GitHubToken
               OutputArtifacts:
                 - Name: 'SourceOutput'
-
         - Name: 'Build'
           Actions:
-            - Name: 'SourceOutput'
+            - Name: 'BuildAction'
               ActionTypeId:
                 Category: 'Build'
                 Owner: 'AWS'
@@ -59,7 +60,9 @@ Resources:
                 - Name: 'SourceOutput'
               OutputArtifacts:
                 - Name: 'BuildOutput'
-
+              # EnvironmentVariables:
+              #   - Name: 'ADDITIONAL_ENV_VARIABLE'
+              #     Value: !Ref EnvironmentVariables
         - Name: 'Deploy'
           Actions:
             - Name: 'DeployAction'
@@ -74,7 +77,6 @@ Resources:
                 ObjectKey: 'dev'
               InputArtifacts:
                 - Name: 'BuildOutput'
-
       ArtifactStore:
         Type: 'S3'
         Location: !Ref ArtifactBucket
@@ -101,7 +103,7 @@ Resources:
                   - 's3:GetBucketVersioning'
                   - 's3:PutObject'
                 Resource:
-                  - !Sub 'arn:aws:s3:::${ArtifactBucket}/*'
+                  - !Sub 'arn:aws:s3:::dev-ar-ui-artifact-bucket-cf/*'
 
   CodeBuildProject:
     Type: 'AWS::CodeBuild::Project'
