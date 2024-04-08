@@ -1,5 +1,25 @@
-Actions:
-            !For
-              'FileIndex': '1'
-              '10':  # Adjust '10' to match the number of files to deploy
-              - Name: !Sub 'DeployAction${FileIndex}'
+- Name: 'BuildOutput'
+        - Name: 'DeployFiles'
+          Actions:
+            - Name: 'DeployAction1'
+              ActionTypeId:
+                Category: 'Deploy'
+                Owner: 'AWS'
+                Version: '1'
+                Provider: 'S3'
+              Configuration:
+                BucketName: !Ref DeployBucket
+                ObjectKey: 'file1.txt'
+              InputArtifacts:
+                - Name: 'BuildOutput'
+            - Name: 'DeployAction2'
+              ActionTypeId:
+                Category: 'Deploy'
+                Owner: 'AWS'
+                Version: '1'
+                Provider: 'S3'
+              Configuration:
+                BucketName: !Ref DeployBucket
+                ObjectKey: 'file2.txt'
+              InputArtifacts:
+                - Name: 'BuildOutput'
