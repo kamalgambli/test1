@@ -1,5 +1,23 @@
-{
-    "Effect": "Allow",
-    "Action": "codebuild:StartBuild",
-    "Resource": "arn:aws:codebuild:us-east-2:905418487417:project/CProject"
-}
+CodeBuildProject:
+    Type: 'AWS::CodeBuild::Project'
+    Properties:
+      Name: 'CProject'
+      ServiceRole: !GetAtt CodeBuildRole.Arn
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/standard:4.0
+      Source:
+        Type: 'CODEPIPELINE'
+        BuildSpec: |
+          version: 0.2
+          phases:
+            install:
+              runtime-versions:
+                react: 18.2
+            build:
+              commands:
+                - echo 'Building...'
+            post_build:
+              commands:
+                - echo 'Build complete.'
