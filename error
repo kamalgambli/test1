@@ -1,1 +1,1 @@
-ActionType (Category: 'Source', Provider: 'GitHub', Owner: 'ThirdParty', Version: '2') in action 'SourceAction' is not available in region 'US_EAST_1' (Service: AWSCodePipeline; Status Code: 400; Error Code: InvalidActionDeclarationException; Request ID: a4fa8db7-6e65-474b-9b61-f2a44d872a7c; Proxy: null)
+Action configuration for action 'SourceAction' is missing required configuration 'OAuthToken' (Service: AWSCodePipeline; Status Code: 400; Error Code: InvalidActionDeclarationException; Request ID: 34ddd768-7ac9-457d-97b0-0abf988fa60e; Proxy: null)
