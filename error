@@ -1,1 +1,140 @@
-The input artifact, dev-ar-ui-artifact-bucket-cf-10/MyPipeline/BuildOutpu/xj7wWCz, does not exist or you do not have permissions to access it: The specified key does not exist. (Service: Amazon S3; Status Code: 404; Error Code: NoSuchKey; Request ID: GBEEHE6JMQC2DPF9; S3 Extended Request ID: 8M/hPR5loNQLcr4NY4dZmhMyuWxyBE6831s3QE7iPYXxT1g2KzxmYN9JRlcvy4mMgiiXSpuDSCVO1m98bwUxsQ==;
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'CI/CD Pipeline using AWS CodePipeline'
+Parameters:
+  GitHubConnectionArn:
+    Type: String
+    Description: 'ARN of the existing GitHub connection'
+Resources:
+  ArtifactBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: dev-ar-ui-artifact-bucket-cf-10
+      AccessControl: Private
+  DeployBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: dev-ar-ui-deploy-bucket-cf-deploy-10
+      AccessControl: Private
+  MyPipeline:
+    Type: 'AWS::CodePipeline::Pipeline'
+    Properties:
+      Name: 'MyPipeline'
+      RoleArn: !GetAtt PipelineRole.Arn
+      Stages:
+        - Name: 'Source'
+          Actions:
+            - Name: 'SourceAction'
+              ActionTypeId:
+                Category: 'Source'
+                Owner: 'AWS'
+                Version: '1'
+                Provider: 'CodeStarSourceConnection'
+              Configuration:
+                ConnectionArn: !Ref GitHubConnectionArn
+                FullRepositoryId: 'ripl-org/ar-ui-frontend'
+                BranchName: 'dev'
+              OutputArtifacts:
+                - Name: 'SourceOutput'
+        - Name: 'Build'
+          Actions:
+            - Name: 'BuildAction'
+              ActionTypeId:
+                Category: 'Build'
+                Owner: 'AWS'
+                Version: '1'
+                Provider: 'CodeBuild'
+              Configuration:
+                ProjectName: !Ref CodeBuildProject
+              InputArtifacts:
+                - Name: 'SourceOutput'
+              OutputArtifacts:
+                - Name: 'BuildOutput'
+        - Name: 'Deploy'
+          Actions:
+            - Name: 'DeployAction'
+              ActionTypeId:
+                Category: 'Deploy'
+                Owner: 'AWS'
+                Version: '1'
+                Provider: 'S3'
+              Configuration:
+                BucketName: !Ref DeployBucket
+                Extract: 'true'
+                ObjectKey: 'dev'
+              InputArtifacts:
+                - Name: 'BuildOutput'
+      ArtifactStore:
+        Type: 'S3'
+        Location: !Ref ArtifactBucket
+  PipelineRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: 'Allow'
+            Principal:
+              Service: 'codepipeline.amazonaws.com'
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: 'PipelinePolicy'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: 'Allow'
+                Action:
+                  - 's3:GetObject'
+                  - 's3:GetObjectVersion'
+                  - 's3:GetBucketVersioning'
+                  - 's3:PutObject'
+                Resource:
+                  - !Sub 'arn:aws:s3:::dev-ar-ui-artifact-bucket-cf-10/*'
+  CodeBuildProject:
+    Type: 'AWS::CodeBuild::Project'
+    Properties:
+      Name: 'CProject'
+      ServiceRole: !GetAtt CodeBuildRole.Arn
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/standard:4.0
+        EnvironmentVariables:
+          - Name: REACT_VERSION
+            Value: "18.2"
+      Source:
+        Type: 'CODEPIPELINE'
+        BuildSpec: |
+          version: 0.2
+          phases:
+            install:
+              commands:
+                - echo 'Installing dependencies'
+            build:
+              commands:
+                - echo 'Building...'
+            post_build:
+              commands:
+                - echo 'Build complete.'
+      Artifacts:
+        Type: 'CODEPIPELINE'
+  CodeBuildRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: 'Allow'
+            Principal:
+              Service: 'codebuild.amazonaws.com'
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: 'CodeBuildPolicy'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: 'Allow'
+                Action:
+                  - 'logs:CreateLogGroup'
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                Resource: '*'
