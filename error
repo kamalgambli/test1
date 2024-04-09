@@ -1,1 +1,1 @@
-	ActionType (Category: 'Source', Provider: 'GitHub', Owner: 'ThirdParty', Version: '2') in action 'SourceAction' is not available in region 'US_EAST_1' (Service: AWSCodePipeline; Status Code: 400; Error Code: InvalidActionDeclarationException; Request ID: 2f7d2440-10ec-4289-99dd-37f0660f0644; Proxy: null)
+Unable to use Connection: arn:aws:codestar-connections:us-east-1:905418487417:connection/9878d0d1-2563-4cb4-9681-6a8958aa20d1. The provided role does not have sufficient permissions.
