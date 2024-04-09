@@ -1,1 +1,5 @@
-Error calling startBuild: User: arn:aws:sts::905418487417:assumed-role/dev-ar-ui-react-pipeline-PipelineRole-BZLgETnxixHE/1712698081952 is not authorized to perform: codebuild:StartBuild on resource: arn:aws:codebuild:us-east-2:905418487417:project/CProject because no identity-based policy allows the codebuild:StartBuild action (Service: AWSCodeBuild; Status Code: 400; Error Code: AccessDeniedException; Request ID: e050b91f-edc5-43d8-b1eb-61d6ff25a579; Proxy: null)
+{
+    "Effect": "Allow",
+    "Action": "codebuild:StartBuild",
+    "Resource": "arn:aws:codebuild:us-east-2:905418487417:project/CProject"
+}
