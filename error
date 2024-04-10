@@ -1,1 +1,1 @@
-find . -mindepth 1 -maxdepth 1 ! -name 'MyPipeline' -exec cp -R {} MyPipeline/BuildOutput \;
+The input artifact, dev-ar-ui-artifact-bucket-cf-10/MyPipeline/BuildOutpu/FBke5yS, does not exist or you do not have permissions to access it: The specified key does not exist. (Service: Amazon S3; Status Code: 404; Error Code: NoSuchKey; Request ID: HPXVTJ183WAJ4ESZ; S3 Extended Request ID: o+7BmZa/tkKlJCMgXlDVrYF45urAXGInKAgamXJLUGz+/WmXYYS1yyP1p7Muidj0Pp3JSHvHqLE=; Proxy: null)
