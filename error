@@ -1,4 +1,14 @@
-[11:32 AM] Nivilah Jerishma Gabriel Ratheesh Kumar
-I am trying to install http-server and run it but im getting this error "'http-server' is not recognized as an internal or external command,
-
-operable program or batch file."  Do you know how to rectify it?
+        - Name: 'Deploy'
+          Actions:
+            - Name: 'DeployAction'
+              ActionTypeId:
+                Category: 'Deploy'
+                Owner: 'AWS'
+                Version: '1'
+                Provider: 'S3'
+              Configuration:
+                BucketName: !Ref DeployBucket
+                Extract: 'true'
+                ObjectKey: 'dev'
+              InputArtifacts:
+                - Name: 'BuildOutput'
