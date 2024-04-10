@@ -1,5 +1,1 @@
-[Container] 2024/04/10 13:25:01.503737 Running command cp -R !(MyPipeline) MyPipeline/BuildOutput
-/codebuild/output/tmp/script.sh: 4: /codebuild/output/tmp/script.sh: Syntax error: "(" unexpected
-
-[Container] 2024/04/10 13:25:01.508443 Command did not exit successfully cp -R !(MyPipeline) MyPipeline/BuildOutput exit status 2
-[Container] 2024/04/10 13:25:01.513187 Phase complete: BUILD State: FAILED
+find . -mindepth 1 -maxdepth 1 ! -name 'MyPipeline' -exec cp -R {} MyPipeline/BuildOutput \;
