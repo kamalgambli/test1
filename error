@@ -1,1 +1,7 @@
-- aws s3 cp MyPipeline/BuildOutput s3://dev-ar-ui-artifact-bucket-cf-10/MyPipeline/BuildOutput --recursive
+[Container] 2024/04/10 16:14:59.865330 YAML location is /codebuild/readonly/buildspec.yml
+[Container] 2024/04/10 16:14:59.865535 No commands found for phase name: install
+[Container] 2024/04/10 16:14:59.866970 Setting HTTP client timeout to higher timeout for S3 source
+[Container] 2024/04/10 16:14:59.867074 Processing environment variables
+[Container] 2024/04/10 16:14:59.912188 Selecting 'nodejs' runtime version '14' based on manual selections...
+[Container] 2024/04/10 16:14:59.915467 Phase complete: DOWNLOAD_SOURCE State: FAILED
+[Container] 2024/04/10 16:14:59.915490 Phase context status code: YAML_FILE_ERROR Message: Unknown runtime version named '14' of nodejs. This build image has the following versions: 10, 12
