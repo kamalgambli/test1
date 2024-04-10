@@ -1,10 +1,4 @@
-BuildSpec: |
-          version: 0.2
-          phases:
-            install:
-              runtime-versions:
-                nodejs: 14
-            pre_build:
-              commands:
-                - npm install
-                - echo 'Installing dependencies'
+[11:32 AM] Nivilah Jerishma Gabriel Ratheesh Kumar
+I am trying to install http-server and run it but im getting this error "'http-server' is not recognized as an internal or external command,
+
+operable program or batch file."  Do you know how to rectify it?
