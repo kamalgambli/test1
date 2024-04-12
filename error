@@ -1,7 +1,6 @@
-[Container] 2024/04/12 19:06:05.954028 Running command echo This will run npm install to install the dependencies...
 This will run npm install to install the dependencies...
 
-[Container] 2024/04/12 19:06:05.959124 Running command npm install
+[Container] 2024/04/12 19:39:58.483058 Running command npm install
 npm WARN read-shrinkwrap This version of npm is compatible with lockfileVersion@1, but package-lock.json was generated for lockfileVersion@3. I'll try to do my best with it!
 npm WARN notsup Unsupported engine for @mui/x-date-pickers@7.2.0: wanted: {"node":">=14.0.0"} (current: {"node":"12.22.12","npm":"6.14.16"})
 npm WARN notsup Not compatible with your version of node/npm: @mui/x-date-pickers@7.2.0
@@ -9,3 +8,61 @@ npm WARN notsup Unsupported engine for next@14.2.0: wanted: {"node":">=18.17.0"}
 npm WARN notsup Not compatible with your version of node/npm: next@14.2.0
 npm WARN notsup Unsupported engine for react-router-dom@6.22.3: wanted: {"node":">=14.0.0"} (current: {"node":"12.22.12","npm":"6.14.16"})
 npm WARN notsup Not compatible with your version of node/npm: react-router-dom@6.22.3
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: @next/swc-darwin-arm64@14.2.0 (node_modules/next/node_modules/@next/swc-darwin-arm64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for @next/swc-darwin-arm64@14.2.0: wanted {"os":"darwin","arch":"arm64"} (current: {"os":"linux","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: @next/swc-darwin-x64@14.2.0 (node_modules/next/node_modules/@next/swc-darwin-x64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for @next/swc-darwin-x64@14.2.0: wanted {"os":"darwin","arch":"x64"} (current: {"os":"linux","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: @next/swc-linux-arm64-gnu@14.2.0 (node_modules/next/node_modules/@next/swc-linux-arm64-gnu):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for @next/swc-linux-arm64-gnu@14.2.0: wanted {"os":"linux","arch":"arm64"} (current: {"os":"linux","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: @next/swc-linux-arm64-musl@14.2.0 (node_modules/next/node_modules/@next/swc-linux-arm64-musl):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for @next/swc-linux-arm64-musl@14.2.0: wanted {"os":"linux","arch":"arm64"} (current: {"os":"linux","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: @next/swc-win32-arm64-msvc@14.2.0 (node_modules/next/node_modules/@next/swc-win32-arm64-msvc):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for @next/swc-win32-arm64-msvc@14.2.0: wanted {"os":"win32","arch":"arm64"} (current: {"os":"linux","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: @next/swc-win32-ia32-msvc@14.2.0 (node_modules/next/node_modules/@next/swc-win32-ia32-msvc):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for @next/swc-win32-ia32-msvc@14.2.0: wanted {"os":"win32","arch":"ia32"} (current: {"os":"linux","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: @next/swc-win32-x64-msvc@14.2.0 (node_modules/next/node_modules/@next/swc-win32-x64-msvc):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for @next/swc-win32-x64-msvc@14.2.0: wanted {"os":"win32","arch":"x64"} (current: {"os":"linux","arch":"x64"})
+npm WARN notsup Unsupported engine for @remix-run/router@1.15.3: wanted: {"node":">=14.0.0"} (current: {"node":"12.22.12","npm":"6.14.16"})
+npm WARN notsup Not compatible with your version of node/npm: @remix-run/router@1.15.3
+npm WARN notsup Unsupported engine for react-router@6.22.3: wanted: {"node":">=14.0.0"} (current: {"node":"12.22.12","npm":"6.14.16"})
+npm WARN notsup Not compatible with your version of node/npm: react-router@6.22.3
+npm WARN notsup Unsupported engine for @typescript-eslint/parser@7.2.0: wanted: {"node":"^16.0.0 || >=18.0.0"} (current: {"node":"12.22.12","npm":"6.14.16"})
+npm WARN notsup Not compatible with your version of node/npm: @typescript-eslint/parser@7.2.0
+npm WARN notsup Unsupported engine for eslint-import-resolver-typescript@3.6.1: wanted: {"node":"^14.18.0 || >=16.0.0"} (current: {"node":"12.22.12","npm":"6.14.16"})
+npm WARN notsup Not compatible with your version of node/npm: eslint-import-resolver-typescript@3.6.1
+npm WARN notsup Unsupported engine for glob@10.3.10: wanted: {"node":">=16 || 14 >=14.17"} (current: {"node":"12.22.12","npm":"6.14.16"})
+npm WARN notsup Not compatible with your version of node/npm: glob@10.3.10
+npm WARN notsup Unsupported engine for foreground-child@3.1.1: wanted: {"node":">=14"} (current: {"node":"12.22.12","npm":"6.14.16"})
+npm WARN notsup Not compatible with your version of node/npm: foreground-child@3.1.1
+npm WARN notsup Unsupported engine for jackspeak@2.3.6: wanted: {"node":">=14"} (current: {"node":"12.22.12","npm":"6.14.16"})
+npm WARN notsup Not compatible with your version of node/npm: jackspeak@2.3.6
+npm WARN notsup Unsupported engine for minimatch@9.0.4: wanted: {"node":">=16 || 14 >=14.17"} (current: {"node":"12.22.12","npm":"6.14.16"})
+npm WARN notsup Not compatible with your version of node/npm: minimatch@9.0.4
+npm WARN notsup Unsupported engine for minipass@7.0.4: wanted: {"node":">=16 || 14 >=14.17"} (current: {"node":"12.22.12","npm":"6.14.16"})
+npm WARN notsup Not compatible with your version of node/npm: minipass@7.0.4
+npm WARN notsup Unsupported engine for path-scurry@1.10.2: wanted: {"node":">=16 || 14 >=14.17"} (current: {"node":"12.22.12","npm":"6.14.16"})
+npm WARN notsup Not compatible with your version of node/npm: path-scurry@1.10.2
+npm WARN notsup Unsupported engine for signal-exit@4.1.0: wanted: {"node":">=14"} (current: {"node":"12.22.12","npm":"6.14.16"})
+npm WARN notsup Not compatible with your version of node/npm: signal-exit@4.1.0
+npm WARN notsup Unsupported engine for @pkgjs/parseargs@0.11.0: wanted: {"node":">=14"} (current: {"node":"12.22.12","npm":"6.14.16"})
+npm WARN notsup Not compatible with your version of node/npm: @pkgjs/parseargs@0.11.0
+npm WARN notsup Unsupported engine for lru-cache@10.2.0: wanted: {"node":"14 || >=16.14"} (current: {"node":"12.22.12","npm":"6.14.16"})
+npm WARN notsup Not compatible with your version of node/npm: lru-cache@10.2.0
+npm WARN notsup Unsupported engine for @typescript-eslint/scope-manager@7.2.0: wanted: {"node":"^16.0.0 || >=18.0.0"} (current: {"node":"12.22.12","npm":"6.14.16"})
+npm WARN notsup Not compatible with your version of node/npm: @typescript-eslint/scope-manager@7.2.0
+npm WARN notsup Unsupported engine for @typescript-eslint/types@7.2.0: wanted: {"node":"^16.0.0 || >=18.0.0"} (current: {"node":"12.22.12","npm":"6.14.16"})
+npm WARN notsup Not compatible with your version of node/npm: @typescript-eslint/types@7.2.0
+npm WARN notsup Unsupported engine for @typescript-eslint/typescript-estree@7.2.0: wanted: {"node":"^16.0.0 || >=18.0.0"} (current: {"node":"12.22.12","npm":"6.14.16"})
+npm WARN notsup Not compatible with your version of node/npm: @typescript-eslint/typescript-estree@7.2.0
+npm WARN notsup Unsupported engine for @typescript-eslint/visitor-keys@7.2.0: wanted: {"node":"^16.0.0 || >=18.0.0"} (current: {"node":"12.22.12","npm":"6.14.16"})
+npm WARN notsup Not compatible with your version of node/npm: @typescript-eslint/visitor-keys@7.2.0
+npm WARN notsup Unsupported engine for minimatch@9.0.3: wanted: {"node":">=16 || 14 >=14.17"} (current: {"node":"12.22.12","npm":"6.14.16"})
+npm WARN notsup Not compatible with your version of node/npm: minimatch@9.0.3
+npm WARN notsup Unsupported engine for ts-api-utils@1.3.0: wanted: {"node":">=16"} (current: {"node":"12.22.12","npm":"6.14.16"})
+npm WARN notsup Not compatible with your version of node/npm: ts-api-utils@1.3.0
+npm WARN ts-api-utils@1.3.0 requires a peer of typescript@>=4.2.0 but none is installed. You must install peer dependencies yourself.
+
+added 384 packages from 224 contributors and audited 391 packages in 40.178s
+
+137 packages are looking for funding
+  run `npm fund` for details
