@@ -1,44 +1,8 @@
 ReferenceError: document is not defined
-    at /codebuild/output/src3951371840/src/.next/server/app/page.js:97:516
-    at l (/codebuild/output/src3951371840/src/.next/server/app/page.js:97:1796)
-    at c (/codebuild/output/src3951371840/src/.next/server/app/page.js:115:179008)
-    at nj (/codebuild/output/src3951371840/src/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46251)
-    at nM (/codebuild/output/src3951371840/src/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47571)
-    at nN (/codebuild/output/src3951371840/src/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64546)
-    at nI (/codebuild/output/src3951371840/src/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47010)
-    at nM (/codebuild/output/src3951371840/src/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47717)
-    at nM (/codebuild/output/src3951371840/src/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61546)
-    at nN (/codebuild/output/src3951371840/src/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64546) {
-  digest: '657156905'
-}
 
-Error occurred prerendering page "/". Read more: https://nextjs.org/docs/messages/prerender-error
 
-ReferenceError: document is not defined
-    at /codebuild/output/src3951371840/src/.next/server/app/page.js:97:516
-    at l (/codebuild/output/src3951371840/src/.next/server/app/page.js:97:1796)
-    at c (/codebuild/output/src3951371840/src/.next/server/app/page.js:115:179008)
-    at nj (/codebuild/output/src3951371840/src/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46251)
-    at nM (/codebuild/output/src3951371840/src/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47571)
-    at nN (/codebuild/output/src3951371840/src/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64546)
-    at nI (/codebuild/output/src3951371840/src/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47010)
-    at nM (/codebuild/output/src3951371840/src/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47717)
-    at nM (/codebuild/output/src3951371840/src/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61546)
-    at nN (/codebuild/output/src3951371840/src/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64546)
- ✓ Generating static pages (4/4)
+import dynamic from 'next/dynamic'
 
-> Export encountered errors on following paths:
-    /page: /
-
-[Container] 2024/04/15 14:35:02.307216 Command did not exit successfully npm run build exit status 1
-[Container] 2024/04/15 14:35:02.310730 Phase complete: BUILD State: FAILED
-[Container] 2024/04/15 14:35:02.310747 Phase context status code: COMMAND_EXECUTION_ERROR Message: Error while executing command: npm run build. Reason: exit status 1
-[Container] 2024/04/15 14:35:02.347805 Entering phase POST_BUILD
-[Container] 2024/04/15 14:35:02.349462 Phase complete: POST_BUILD State: SUCCEEDED
-[Container] 2024/04/15 14:35:02.349476 Phase context status code:  Message: 
-[Container] 2024/04/15 14:35:02.445835 Expanding base directory path: .src/app/page
-[Container] 2024/04/15 14:35:02.447605 Assembling file list
-[Container] 2024/04/15 14:35:02.447618 Expanding .src/app/page
-[Container] 2024/04/15 14:35:02.449247 Skipping invalid file path .src/app/page
-[Container] 2024/04/15 14:35:02.449556 Phase complete: UPLOAD_ARTIFACTS State: FAILED
-[Container] 2024/04/15 14:35:02.449649 Phase context status code: CLIENT_ERROR Message: no matching base directory path found for .src/app/page
+const DynamicComponentWithNoSSR = dynamic(
+  () => import('../components/hello3'),
+  { ssr: false }
