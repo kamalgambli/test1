@@ -8,13 +8,13 @@ const DynamicComponentWithNoSSR = dynamic(
   { ssr: false }
 
 
-[Container] 2024/04/15 20:31:20.619245 Running command npm run start
+[Container] 2024/04/15 21:23:46.650160 Running command npm run dev
 
-> ar-ui-frontend@0.1.0 start
-> next start
+> ar-ui-frontend@0.1.0 dev
+> next dev
 
   ▲ Next.js 14.2.0
   - Local:        http://localhost:3000
 
  ✓ Starting...
- ✓ Ready in 313ms
+ ✓ Ready in 1520ms
