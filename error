@@ -1,20 +1,39 @@
-ReferenceError: document is not defined
-
-
-import dynamic from 'next/dynamic'
-
-const DynamicComponentWithNoSSR = dynamic(
-  () => import('../components/hello3'),
-  { ssr: false }
-
-
-[Container] 2024/04/15 21:23:46.650160 Running command npm run dev
-
-> ar-ui-frontend@0.1.0 dev
-> next dev
-
-  ▲ Next.js 14.2.0
-  - Local:        http://localhost:3000
-
- ✓ Starting...
- ✓ Ready in 1520ms
+CodeBuild:
+      Type: AWS::CodeBuild::Project
+      Properties:
+        Name: !Sub ${AWS::StackName}-CodeBuild
+        ServiceRole: !GetAtt CodeBuildRole.Arn
+        Artifacts:
+          Type: CODEPIPELINE
+          Name: ar-ui-project
+        Environment:
+          Type: LINUX_CONTAINER
+          ComputeType: BUILD_GENERAL1_SMALL
+          Image: aws/codebuild/standard:5.0
+          EnvironmentVariables:
+            - Name: REACT_VERSION
+              Value: ^18
+            - Name: NEXT_VERSION
+              Value: 14.2.0
+        Source:
+          Type: CODEPIPELINE
+          BuildSpec: !Sub |
+            version: 0.2
+            phases:
+              install:
+                runtime-versions:
+                  nodejs: 20
+              pre_build:
+                commands:
+                  - echo "This will run npm install to install the dependencies..."
+                  - npm install -g next
+                  - npm i @mui/material
+              build:
+                commands:
+                  - echo "run the build process"
+                  - npm run build
+                  - npm run dev
+            artifacts:
+              files:
+                - '**/*'
+              base-directory: '.src/app/page'
