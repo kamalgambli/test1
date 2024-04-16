@@ -2,3 +2,6 @@ d20x23yp280w90.cloudfront.net/:1
         
         
        GET https://d20x23yp280w90.cloudfront.net/_next/static/chunks/234-5f0f804e8ed15844.js net::ERR_ABORTED 404 (Not Found)
+
+
+Failed to load resource: the server responded with a status of 404 (Not Found)
